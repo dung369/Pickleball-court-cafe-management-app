@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pickleball Drink Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- LOGIN SCREEN -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-box">
+      <h1>🏓 Pickleball Drink</h1>
+      <h2>Đăng nhập hệ thống</h2>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Tên đăng nhập</label>
+          <input type="text" id="loginUsername" required placeholder="Nhập tên đăng nhập">
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu</label>
+          <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+      </form>
+      <div id="loginError" class="error-message" style="display:none; color:red; margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <div class="app-container" id="appContainer" style="display: none;">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>🏓 Pickleball Drink</h2>
+        <p id="currentUserInfo" style="font-size:12px; color:#ccc; margin-top:5px;"></p>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-view="tables">
+          <span class="icon">🪑</span> Quản lý bàn
+        </button>
+        <button class="nav-btn" data-view="menu">
+          <span class="icon">📋</span> Menu
+        </button>
+        <button class="nav-btn" data-view="bills">
+          <span class="icon">🧾</span> Lịch sử
+        </button>
+        <button class="nav-btn" data-view="reports">
+          <span class="icon">📊</span> Báo cáo
+        </button>
+      </nav>
+      <div style="padding: 20px; margin-top: auto;">
+        <button class="btn btn-danger btn-block" onclick="handleLogout()">🚪 Đăng xuất</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- QUẢN LÝ BÀN -->
+      <section class="view-section active" id="tables-view">
+        <div class="section-header">
+          <h1>Quản lý bàn</h1>
+          <div class="legend">
+            <span class="legend-item"><span class="dot empty"></span> Trống</span>
+            <span class="legend-item"><span class="dot serving"></span> Đang phục vụ</span>
+            <span class="legend-item"><span class="dot unpaid"></span> Chưa thanh toán</span>
+            <button class="btn btn-success" onclick="addNewTable()" style="margin-left: auto;">➕ Thêm bàn mới</button>
+            <button class="btn btn-danger" onclick="deleteTableFromGrid()" style="margin-left: 10px;">🗑️ Xóa bàn</button>
+          </div>
+        </div>
+
+        <div class="tables-grid" id="tablesGrid"></div>
+      </section>
+
+      <!-- MENU -->
+      <section class="view-section" id="menu-view">
+        <div class="section-header">
+          <h1>Quản lý Menu</h1>
+          <button class="btn btn-primary" id="addMenuItemBtn" onclick="document.getElementById('menuItemModalTitle').textContent='Thêm món mới';document.getElementById('menuItemForm').reset();document.getElementById('menuItemId').value='';document.getElementById('menuItemModal').classList.add('active');">+ Thêm món mới</button>
+        </div>
+
+        <div class="menu-controls">
+          <input type="text" id="menuSearch" class="search-input" placeholder="🔍 Tìm kiếm món...">
+          <select id="categoryFilter" class="select-input">
+            <option value="">Tất cả danh mục</option>
+          </select>
+          <select id="sortBy" class="select-input">
+            <option value="name">Tên món</option>
+            <option value="price-asc">Giá tăng dần</option>
+            <option value="price-desc">Giá giảm dần</option>
+            <option value="popular">Món bán chạy</option>
+          </select>
+        </div>
+
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <!-- LỊCH SỬ HÓA ĐƠN -->
+      <section class="view-section" id="bills-view">
+        <div class="section-header">
+          <h1>Lịch sử hóa đơn</h1>
+          <div class="date-filter">
+            <input type="date" id="startDate" class="date-input">
+            <span>đến</span>
+            <input type="date" id="endDate" class="date-input">
+            <button class="btn btn-secondary" id="filterBillsBtn">Lọc</button>
+          </div>
+        </div>
+
+        <div class="bills-container">
+          <table class="bills-table">
+            <thead>
+              <tr>
+                <th>Mã HĐ</th>
+                <th>Ngày giờ</th>
+                <th>Bàn</th>
+                <th>Tổng tiền</th>
+                <th>Giảm giá</th>
+                <th>Thanh toán</th>
+                <th>Thu ngân</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="billsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- BÁO CÁO -->
+      <section class="view-section" id="reports-view">
+        <div class="section-header">
+          <h1>Báo cáo doanh thu</h1>
+          <div class="report-controls">
+            <input type="date" id="reportStartDate" class="date-input">
+            <input type="date" id="reportEndDate" class="date-input">
+            <button class="btn btn-primary" id="generateReportBtn">Tạo báo cáo</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Tổng doanh thu</h3>
+            <p class="stat-value" id="totalRevenue">0đ</p>
+          </div>
+          <div class="stat-card">
+            <h3>Số hóa đơn</h3>
+            <p class="stat-value" id="totalBills">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Giá trị trung bình</h3>
+            <p class="stat-value" id="avgBill">0đ</p>
+          </div>
+          <div class="stat-card">
+            <h3>Tổng giảm giá</h3>
+            <p class="stat-value" id="totalDiscount">0đ</p>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h2>Phân tích theo phương thức thanh toán</h2>
+          <div id="paymentMethodChart"></div>
+        </div>
+
+        <div class="report-section">
+          <h2>Top 10 món bán chạy</h2>
+          <table class="top-items-table">
+            <thead>
+              <tr>
+                <th>Tên món</th>
+                <th>Số lượng</th>
+                <th>Doanh thu</th>
+              </tr>
+            </thead>
+            <tbody id="topItemsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Order Details -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content large">
+      <div class="modal-header">
+        <h2>Bàn <span id="modalTableNumber"></span></h2>
+        <button class="close-btn" id="closeOrderModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="order-container">
+          <div class="menu-selection">
+            <input type="text" id="orderMenuSearch" class="search-input" placeholder="🔍 Tìm món...">
+            <div class="category-tabs" id="orderCategoryTabs"></div>
+            <div class="menu-items-grid" id="orderMenuItems"></div>
+          </div>
+          <div class="order-summary">
+            <h3>Món đã order</h3>
+            <div class="order-items" id="orderItems"></div>
+            <div class="order-total">
+              <h3>Tổng cộng: <span id="orderTotalAmount">0đ</span></h3>
+            </div>
+            <div class="order-actions">
+              <button class="btn btn-secondary" id="transferTableBtn">Chuyển bàn</button>
+              <button class="btn btn-secondary" id="mergeTableBtn">Gộp bàn</button>
+              <button class="btn btn-warning" id="splitTableBtn" style="display: none;">Tách bàn</button>
+              <button class="btn btn-success" id="checkoutBtn">Thanh toán</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Checkout -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Thanh toán - Bàn <span id="checkoutTableNumber"></span></h2>
+        <button class="close-btn" id="closeCheckoutModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="checkout-summary" id="checkoutSummary"></div>
+        <div class="form-group">
+          <label>Tổng tiền:</label>
+          <input type="text" id="checkoutTotal" class="form-input" readonly>
+        </div>
+        <div class="form-group">
+          <label>Giảm giá:</label>
+          <input type="number" id="checkoutDiscount" class="form-input" value="0" min="0">
+        </div>
+        <div class="form-group">
+          <label>Thành tiền:</label>
+          <input type="text" id="checkoutFinal" class="form-input" readonly>
+        </div>
+        <div class="form-group">
+          <label>Phương thức thanh toán:</label>
+          <select id="paymentMethod" class="select-input">
+            <option value="cash">Tiền mặt</option>
+            <option value="transfer">Chuyển khoản</option>
+            <option value="qr">QR Banking</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Thu ngân:</label>
+          <input type="text" id="cashierName" class="form-input" placeholder="Tên thu ngân">
+        </div>
+        <button class="btn btn-success btn-block" id="confirmCheckoutBtn">Xác nhận thanh toán</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Add/Edit Menu Item -->
+  <div class="modal" id="menuItemModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="menuItemModalTitle">Thêm món mới</h2>
+        <button class="close-btn" id="closeMenuItemModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="menuItemForm">
+          <input type="hidden" id="menuItemId">
+          <div class="form-group">
+            <label>Tên món:</label>
+            <input type="text" id="menuItemName" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label>Giá (VNĐ):</label>
+            <input type="number" id="menuItemPrice" class="form-input" required min="0">
+          </div>
+          <div class="form-group">
+            <label>Danh mục:</label>
+            <select id="menuItemCategory" class="select-input" required></select>
+          </div>
+          <div class="form-group">
+            <label>Mô tả:</label>
+            <textarea id="menuItemDesc" class="form-input" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Lưu</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Bill Detail -->
+  <div class="modal" id="billDetailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Chi tiết hóa đơn</h2>
+        <button class="close-btn" id="closeBillDetailModal">&times;</button>
+      </div>
+      <div class="modal-body" id="billDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Modal Select Table -->
+  <div class="modal" id="selectTableModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="selectTableTitle">Chọn bàn</h2>
+        <button class="close-btn" id="closeSelectTableModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="selectTableMessage" style="margin-bottom: 20px;"></p>
+        <div class="tables-grid" id="selectTableGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirm -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="confirmTitle">Xác nhận</h2>
+        <button class="close-btn" id="closeConfirmModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage"></p>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn btn-secondary btn-block" id="confirmCancelBtn">Hủy</button>
+          <button class="btn btn-danger btn-block" id="confirmOkBtn">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

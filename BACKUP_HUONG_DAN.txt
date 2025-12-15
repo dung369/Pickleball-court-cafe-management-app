@@ -1,0 +1,141 @@
+========================================
+  HƯỚNG DẪN BACKUP DATABASE HÀNG NGÀY
+========================================
+
+📌 TẠI SAO PHẢI BACKUP?
+- File database chứa TẤT CẢ dữ liệu: Menu, Order, Hóa đơn, Bàn
+- Nếu mất file này = mất toàn bộ dữ liệu quán!
+- Máy tính có thể hỏng, virus, format nhầm...
+
+========================================
+
+✅ CÁCH 1: BACKUP TỰ ĐỘNG (KHUYÊN DÙNG)
+
+1. Double-click file: backup-data.bat
+2. File backup tự động được tạo với tên:
+   pickleball_drink_backup_YYYYMMDD.db
+   (VD: pickleball_drink_backup_20251211.db)
+
+3. Copy file backup này vào:
+   ✓ USB
+   ✓ Google Drive
+   ✓ Dropbox
+   ✓ Email cho chính mình
+
+⏰ LÀM HÀNG NGÀY sau khi đóng cửa quán!
+
+========================================
+
+✅ CÁCH 2: BACKUP THỦ CÔNG
+
+1. Tìm file: pickleball_drink.db
+   (Trong thư mục cài đặt app)
+
+2. Click chuột phải → Copy
+
+3. Dán vào USB hoặc thư mục khác
+
+4. Đổi tên thêm ngày:
+   pickleball_drink_2024-12-11.db
+
+========================================
+
+🔄 KHÔI PHỤC DỮ LIỆU (KHI CẦN)
+
+1. TẮT ứng dụng
+
+2. Tìm file backup (VD: pickleball_drink_backup_20251211.db)
+
+3. Copy file backup
+
+4. Dán vào thư mục app, đổi tên thành:
+   pickleball_drink.db
+   (Ghi đè file cũ nếu có)
+
+5. Khởi động lại app
+
+6. ✅ Dữ liệu đã về!
+
+========================================
+
+💡 GỢI Ý BACKUP THÔNG MINH
+
+📅 Backup hàng ngày:
+- Đặt lịch nhắc 9:00 PM mỗi tối
+- Double-click backup-data.bat
+- Copy file ra USB (5 giây)
+
+📅 Backup hàng tuần:
+- Upload lên Google Drive
+- Giữ 4 bản backup gần nhất
+
+📅 Backup hàng tháng:
+- Lưu vào ổ cứng ngoài
+- Giữ vĩnh viễn
+
+========================================
+
+⚠️ LƯU Ý QUAN TRỌNG
+
+❌ ĐỪNG:
+- Xóa file backup cũ (giữ ít nhất 7 ngày)
+- Backup khi app đang chạy
+- Lưu chỉ 1 nơi
+
+✅ NÊN:
+- Backup nhiều nơi (USB + Cloud)
+- Kiểm tra file backup thỉnh thoảng
+- Đặt tên có ngày tháng
+- Test restore 1 tháng/lần
+
+========================================
+
+📊 DUNG LƯỢNG FILE
+
+File database thường:
+- Mới: ~500KB
+- 1 tháng: ~2-5MB
+- 1 năm: ~20-50MB
+
+→ Rất nhỏ, dễ backup!
+
+========================================
+
+🆘 SỰ CỐ THƯỜNG GẶP
+
+1. "Không tìm thấy file database"
+   → Chạy app 1 lần để tạo file
+
+2. "Backup bị lỗi"
+   → Tắt app rồi backup lại
+
+3. "Restore không được"
+   → Kiểm tra tên file phải là: pickleball_drink.db
+
+4. "Mất hết dữ liệu"
+   → Restore từ backup gần nhất
+
+========================================
+
+✅ CHECKLIST HÀNG NGÀY
+
+□ Đóng cửa quán
+□ Double-click backup-data.bat
+□ Copy file backup ra USB
+□ Kiểm tra file backup đã có
+□ Tắt app
+□ Tắt máy tính
+
+========================================
+
+🎯 TÓM TẮT
+
+1 PHÚT MỖI NGÀY = AN TOÀN DỮ LIỆU CẢ NĂM!
+
+1. Double-click: backup-data.bat
+2. Copy file ra USB
+3. Xong!
+
+Đơn giản vậy thôi! 💪
+
+========================================

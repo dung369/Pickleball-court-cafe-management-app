@@ -1,0 +1,63 @@
+═══════════════════════════════════════════════════════════
+   HƯỚNG DẪN CÀI ĐẶT PICKLEBALL DRINK MANAGER - GIỮ DỮ LIỆU CŨ
+═══════════════════════════════════════════════════════════
+
+📦 FILE CẦN GỬI CHO KHÁCH:
+   1. Pickleball Drink Manager Setup 1.0.0.exe
+   2. pickleball_drink.db (file dữ liệu cũ)
+   3. migrate-database.bat (script tự động)
+   4. File hướng dẫn này
+
+═══════════════════════════════════════════════════════════
+
+📋 CÁCH 1: TỰ ĐỘNG (KHUYÊN DÙNG)
+
+Bước 1: Cài đặt app
+   → Double-click file "Pickleball Drink Manager Setup 1.0.0.exe"
+   → Chọn thư mục cài đặt và hoàn tất
+
+Bước 2: Mở app lần đầu
+   → Mở app từ Desktop hoặc Start Menu
+   → Đăng nhập (admin/159357)
+   → TẮT app ngay
+
+Bước 3: Copy dữ liệu cũ
+   → Double-click file "migrate-database.bat"
+   → Đợi thông báo "Migrate thành công!"
+   → Nhấn phím bất kỳ để đóng
+
+Bước 4: Mở lại app
+   → Dữ liệu cũ đã được khôi phục! ✅
+
+═══════════════════════════════════════════════════════════
+
+📋 CÁCH 2: THỦ CÔNG
+
+Bước 1: Cài đặt app (giống cách 1)
+
+Bước 2: Mở app 1 lần rồi tắt (để tạo thư mục)
+
+Bước 3: Mở thư mục dữ liệu
+   → Nhấn Windows + R
+   → Gõ: %APPDATA%\pickleball-drink-manager
+   → Nhấn Enter
+
+Bước 4: Copy file database
+   → Copy file "pickleball_drink.db" 
+   → Paste vào thư mục vừa mở
+   → Chọn "Replace" nếu có hỏi
+
+Bước 5: Mở lại app → Dữ liệu đã về! ✅
+
+═══════════════════════════════════════════════════════════
+
+⚠️ LƯU Ý:
+   - App mới SẼ TỰ ĐỘNG lưu dữ liệu
+   - Không cần backup thủ công nữa
+   - Dữ liệu lưu tại: %APPDATA%\pickleball-drink-manager
+
+📞 HỖ TRỢ:
+   - Tài khoản Admin: admin / 159357
+   - Tài khoản Nhân viên: nhanvien / 123456
+
+═══════════════════════════════════════════════════════════

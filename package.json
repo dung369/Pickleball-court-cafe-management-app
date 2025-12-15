@@ -1,0 +1,38 @@
+{
+  "name": "pickleball-drink-manager",
+  "version": "1.0.0",
+  "description": "Phần mềm quản lý quán Pickleball Drink",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64"
+  },
+  "keywords": ["cafe", "restaurant", "pos"],
+  "author": "Pickleball Drink",
+  "license": "MIT",
+  "dependencies": {
+    "sql.js": "^1.10.3"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.pickleballdrink.manager",
+    "productName": "Pickleball Drink Manager",
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "files": [
+      "**/*",
+      "!**/*.map"
+    ]
+  }
+}
