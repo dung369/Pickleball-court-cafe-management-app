@@ -1,453 +1,333 @@
-# 🥤 Pickleball Drink Manager
+# 🏓 Pickleball Drink Manager
 
-## Phần mềm quản lý quán cafe/đồ uống cho Windows Desktop
+Ứng dụng quản lý quán cafe chuyên nghiệp cho Windows, được xây dựng bằng Electron và SQLite.
 
-Phần mềm POS (Point of Sale) chuyên nghiệp, dễ sử dụng, hoạt động OFFLINE 100% - không cần internet.
+## 📋 Tổng quan
 
----
+**Pickleball Drink Manager** là hệ thống Point of Sale (POS) desktop hoàn chỉnh được thiết kế đặc biệt cho quán cafe Pickleball Drink. Ứng dụng cung cấp đầy đủ các tính năng quản lý bàn, đặt món, thanh toán, in hóa đơn và báo cáo doanh thu.
 
-## ✨ Tính năng chính
-
-### 🪑 Quản lý bàn thông minh
-- **Quản lý không giới hạn số bàn** - Thêm/xóa bàn tùy ý
-- **Gộp bàn linh hoạt** - Gộp nhiều bàn thành 1 (VD: Bàn 1+3+5+7)
-- **Tách bàn tự động** - Tách bàn ghép về các bàn riêng lẻ, món chia đều
-- **Chuyển bàn nhanh** - Di chuyển order sang bàn khác 1 cú click
-- **Trạng thái màu sắc** - Trống (xanh), Đang phục vụ (vàng), Chưa thanh toán (đỏ)
-
-### 📋 Quản lý Menu
-- Thêm, sửa, xóa món dễ dàng
-- Phân loại theo danh mục
-- Tìm kiếm & lọc thông minh
-- Đánh dấu món phổ biến
-- Sẵn 22 món mẫu (cafe, nước ép, sinh tố, sữa chua...)
-
-### 🛒 Đặt món & Order
-- Giao diện đặt món trực quan, nhanh chóng
-- Tăng/giảm số lượng bằng nút +/-
-- Ghi chú đặc biệt cho từng món
-- Hiển thị tổng tiền real-time
-- Cập nhật order bất cứ lúc nào
-
-### 💰 Thanh toán đa dạng
-- **3 phương thức**: Tiền mặt / Chuyển khoản / QR Code
-- Giảm giá linh hoạt theo số tiền
-- In hóa đơn tự động
-- Lưu lịch sử giao dịch vĩnh viễn
-
-### 📊 Báo cáo & Thống kê
-- Doanh thu theo khoảng thời gian tùy chọn
-- Top 10 món bán chạy nhất
-- **Thống kê theo phương thức thanh toán**
-- Lọc hóa đơn theo ngày
-- Xem chi tiết từng hóa đơn
-- Xóa hóa đơn sai (có xác nhận)
+### ✨ Điểm nổi bật
+- ✅ Giao diện thân thiện, dễ sử dụng
+- ✅ Hoạt động offline hoàn toàn (không cần internet)
+- ✅ Dữ liệu lưu trữ cục bộ an toàn với SQLite
+- ✅ Hệ thống phân quyền Admin/Nhân viên
+- ✅ In hóa đơn tự động với preview
+- ✅ Quản lý bàn linh hoạt (gộp/tách/chuyển bàn)
+- ✅ Báo cáo doanh thu theo thời gian
+- ✅ Backup/restore dữ liệu đơn giản
 
 ---
 
-## 🚀 Cài đặt trên máy khách
+## 🛠️ Công nghệ sử dụng
 
-### ✅ YÊU CẦU HỆ THỐNG
-- **Hệ điều hành**: Windows 7/8/10/11 (64-bit)
-- **RAM**: Tối thiểu 2GB
-- **Ổ cứng**: 200MB trống
-- **Không cần Internet** sau khi cài đặt
+### Frontend
+| Công nghệ | Phiên bản | Mô tả |
+|-----------|-----------|-------|
+| **HTML5** | - | Cấu trúc giao diện |
+| **CSS3** | - | Styling và responsive design |
+| **JavaScript (ES6+)** | - | Logic xử lý phía client |
 
-### 📥 HƯỚNG DẪN CÀI ĐẶT CHO MÁY KHÁCH
+### Backend
+| Công nghệ | Phiên bản | Mô tả |
+|-----------|-----------|-------|
+| **Node.js** | v22.16.0 | JavaScript runtime |
+| **Electron** | 28.1.0 | Desktop application framework |
+| **sql.js** | 1.10.3 | SQLite database (WASM) |
 
-#### Phương án 1: Sử dụng file cài đặt .exe (Dễ nhất - Khuyên dùng)
+### Build Tools
+- **electron-builder** 24.9.1 - Đóng gói ứng dụng thành file .exe
+- **npm** - Package manager
 
-**📚 Hướng dẫn chi tiết → [BUILD_GUIDE.md](BUILD_GUIDE.md)**
+---
 
-**Cách nhanh nhất:**
+## 📁 Cấu trúc dự án
 
-1. **Build file cài đặt** (trên máy dev):
-   ```powershell
-   npm run build
-   ```
-   Hoặc double-click: **`build.bat`** (tự động build + kiểm tra)
-   
-   File `.exe` sẽ được tạo trong thư mục `dist/` (≈80-150MB)
+```
+pickleball-drink-manager/
+│
+├── main.js                      # Electron main process (backend)
+├── preload.js                   # Bridge giữa main và renderer
+├── index.html                   # Giao diện chính (frontend)
+├── app.js                       # Logic frontend
+├── styles.css                   # Stylesheet
+├── database.js                  # SQLite database manager (backend)
+│
+├── assets/                      # Tài nguyên tĩnh
+│   └── icon.png                # Icon ứng dụng
+│
+├── backups/                     # Thư mục backup database
+│
+├── dist/                        # Build output
+│   └── Pickleball Drink Manager Setup 1.0.0.exe
+│
+├── backup-data.bat             # Script backup database
+├── restore-data.bat            # Script restore database
+├── list-backups.bat            # Liệt kê các backup
+├── setup-auto-backup.bat       # Cài đặt backup tự động
+├── migrate-database.bat        # Migrate dữ liệu khi update
+│
+├── HUONG_DAN_CAI_DAT.txt      # Hướng dẫn cài đặt
+├── BACKUP_HUONG_DAN.txt       # Hướng dẫn backup
+├── BUILD_GUIDE.txt            # Hướng dẫn build
+│
+├── package.json               # Dependencies và scripts
+└── README.md                  # File này
+```
 
-2. **Copy file .exe sang máy khách**
-   - USB: Copy → cắm USB → paste
-   - Cloud: Upload Google Drive/Dropbox → chia sẻ link
-   - LAN: Share thư mục qua mạng nội bộ
+### Chi tiết các module chính
 
-3. **Cài đặt trên máy khách**
-   - Double-click file `.exe`
-   - Nếu Windows cảnh báo: Click "More info" → "Run anyway"
-   - Click "Install"
-   - Chọn thư mục cài đặt (mặc định OK)
-   - Đợi 10-30 giây → Done!
+#### 🔹 main.js (Backend - Electron Main Process)
+- Quản lý cửa sổ ứng dụng
+- Xử lý IPC (Inter-Process Communication)
+- Kết nối frontend với database
+- Xử lý các API requests từ renderer process
 
-4. **Thêm dữ liệu menu ban đầu** (chọn 1):
-   - **Cách 1:** Cài Node.js → chạy `node seed-menu.js` trong thư mục app
-   - **Cách 2:** Copy file `pickleball_drink.db` có sẵn từ máy dev
-   - **Cách 3:** Thêm menu thủ công trong app
+#### 🔹 database.js (Backend - Database Layer)
+- Quản lý SQLite database
+- CRUD operations cho tất cả entities
+- 8 tables: categories, menu_items, tables, orders, order_items, bills, bill_items, users
+- Xử lý transactions và data persistence
 
-5. **✅ XONG!** - App chạy độc lập, không cần Node.js
+#### 🔹 app.js (Frontend - Business Logic)
+- Xử lý UI interactions
+- Gọi API thông qua IPC
+- Quản lý state (currentUser, currentTable, currentOrder)
+- Render dữ liệu động
 
-#### Phương án 2: Copy toàn bộ code (Cho máy không cài được .exe)
+#### 🔹 preload.js (Bridge)
+- Context isolation bridge
+- Expose safe APIs từ main process cho renderer
+- Security layer giữa frontend và backend
 
-**Bước 1: Chuẩn bị trên máy khách**
+---
 
-1. **Cài đặt Node.js**:
-   - Tải Node.js LTS từ: https://nodejs.org/
-   - Chạy file cài đặt, chọn tất cả tùy chọn mặc định
-   - Khởi động lại máy tính
+## 🎯 Tính năng chính
 
-2. **Kiểm tra cài đặt**:
-   ```powershell
-   node --version
-   npm --version
-   ```
-   Phải hiện số version (VD: v22.16.0)
+### 1. Quản lý bàn
+- ✅ Hiển thị trạng thái bàn real-time (Trống/Đang dùng/Đã gộp)
+- ✅ Gộp bàn: Kết hợp nhiều bàn thành 1 (VD: Bàn 1+3+5)
+- ✅ Tách bàn: Tách các bàn đã gộp thành bàn riêng lẻ
+- ✅ Chuyển bàn: Di chuyển order sang bàn khác
+- ✅ Thêm/xóa bàn động
 
-**Bước 2: Copy code**
+### 2. Menu & Đặt món
+- ✅ 22 món đồ uống mặc định
+- ✅ Phân loại theo danh mục
+- ✅ Thêm món vào order với số lượng tùy chỉnh
+- ✅ Ghi chú cho từng món
+- ✅ Tính tổng tiền tự động
 
-1. Copy toàn bộ thư mục `Pickleball Drink Manager` sang máy khách
-2. Đặt ở vị trí dễ tìm (VD: `C:\POS\`)
+### 3. Thanh toán
+- ✅ 3 phương thức: Tiền mặt / Chuyển khoản / QR Banking
+- ✅ Áp dụng giảm giá
+- ✅ In hóa đơn tự động với preview
+- ✅ Lưu lịch sử hóa đơn với timestamp chính xác (múi giờ VN)
 
-**Bước 3: Cài đặt dependencies**
+### 4. Hệ thống phân quyền
+- 👨‍💼 **Admin**
+  - Username: `admin` / Password: `159357`
+  - Toàn quyền: Xem, thêm, sửa, xóa tất cả
+  - Xóa hóa đơn
+  
+- 👤 **Nhân viên**
+  - Username: `nhanvien` / Password: `123456`
+  - Chỉ xem và tạo orders/bills
+  - Không được xóa hóa đơn
 
-Mở PowerShell/Command Prompt tại thư mục code:
+### 5. Báo cáo & Thống kê
+- ✅ Lịch sử hóa đơn với bộ lọc thời gian
+- ✅ Doanh thu theo ngày/tuần/tháng
+- ✅ Chi tiết từng hóa đơn
+- ✅ Thống kê món bán chạy
 
-```powershell
-cd "C:\POS\Pickleball Drink Manager"
+### 6. Backup & Restore
+- ✅ Backup thủ công bằng 1 click
+- ✅ Backup tự động theo lịch (Task Scheduler)
+- ✅ Restore dữ liệu từ backup cũ
+- ✅ Liệt kê tất cả backup points
+
+---
+
+## 🚀 Hướng dẫn cài đặt
+
+### Yêu cầu hệ thống
+- **OS:** Windows 10/11 (64-bit)
+- **RAM:** 2GB trở lên
+- **Disk:** 200MB trống
+
+### Cài đặt cho người dùng cuối
+1. Download file `Pickleball Drink Manager Setup 1.0.0.exe`
+2. Double-click để cài đặt
+3. Follow hướng dẫn trên màn hình
+4. Mở ứng dụng và đăng nhập
+
+### Cài đặt cho Developer
+
+#### Bước 1: Clone project
+```bash
+git clone <repository-url>
+cd "New folder (12)"
+```
+
+#### Bước 2: Cài dependencies
+```bash
 npm install
 ```
 
-Đợi 2-5 phút để tải về các thư viện cần thiết.
-
-**Bước 4: Thêm dữ liệu menu mẫu** (chỉ chạy 1 lần)
-
-```powershell
-node seed-menu.js
-```
-
-Sẽ tạo 22 món mẫu: Cà phê, Nước ép, Sinh tố, Sữa chua...
-
-**Bước 5: Chạy ứng dụng**
-
-```powershell
+#### Bước 3: Chạy development mode
+```bash
 npm start
 ```
 
-Hoặc double-click file **`start-app.bat`**
-
-### 🎯 CÀI ĐẶT NHANH (Dùng file .bat)
-
-**Đơn giản nhất:**
-
-1. Double-click `install.bat` - Tự động cài đặt
-2. Double-click `start-app.bat` - Chạy app
+Ứng dụng sẽ mở ở cổng Electron với hot-reload.
 
 ---
 
-## 💾 Quản lý Database & Backup
+## 🏗️ Build Production
 
-### 📍 Vị trí file database
-```
-pickleball_drink.db
-```
-File này chứa **TẤT CẢ** dữ liệu: Menu, Order, Hóa đơn, Bàn...
-
-### ⚠️ BACKUP ĐỊNH KỲ (CỰC KỲ QUAN TRỌNG!)
-
-#### 🎯 Cách 1: Backup THỦ CÔNG
-
-**Double-click file:** `backup-data.bat`
-
-✅ Tự động:
-- Tạo thư mục `backups\` (nếu chưa có)
-- Copy database với tên có timestamp: `pickleball_drink_backup_20241211_143052.db`
-- Hiển thị dung lượng file & tổng số backup
-- Không ghi đè backup cũ
-
-💡 **Khuyến nghị**: Backup CUỐI MỖI NGÀY trước khi đóng cửa
-
-#### ⚡ Cách 2: Backup TỰ ĐỘNG theo lịch
-
-**Bước 1: Cài đặt lịch backup** (chỉ 1 lần)
-
-1. Click phải vào `setup-auto-backup.bat`
-2. Chọn **"Run as administrator"**
-3. Chọn `Y` để xác nhận
-
-✅ Lịch sẽ tự động chạy backup **MỖI NGÀY LÚC 23:00** (11 giờ đêm)
-
-**Bước 2: Kiểm tra backup định kỳ**
-
-Double-click `list-backups.bat` để xem:
-- Danh sách tất cả backup
-- Dung lượng từng file
-- Backup cũ nhất & mới nhất
-- Tổng dung lượng
-
-**Gỡ bỏ lịch tự động** (nếu cần):
-- Click phải `uninstall-auto-backup.bat`
-- Chọn "Run as administrator"
-
-#### 🔄 Khôi phục dữ liệu
-
-**Khi nào cần restore:**
-- Dữ liệu bị hỏng/mất
-- Muốn quay về trạng thái trước đó
-- Cài đặt lại app trên máy mới
-
-**Cách restore:**
-
-1. Double-click `restore-data.bat`
-2. Chọn số thứ tự của backup muốn restore
-3. Xác nhận `Y`
-
-✅ Script tự động:
-- Backup file hiện tại trước khi restore (an toàn 100%)
-- Copy backup đã chọn thành database chính
-- Kiểm tra app có đang chạy không
-
-#### 📋 Chiến lược Backup thông minh
-
-**Hàng ngày:**
-- ✅ Backup tự động lúc 23:00 (hoặc thủ công)
-- ✅ Giữ 7 backup gần nhất
-
-**Hàng tuần:**
-- ✅ Copy backup Chủ Nhật ra USB/Google Drive
-- ✅ Đặt tên: `backup_tuan_W50_2024.db`
-
-**Hàng tháng:**
-- ✅ Copy backup ngày cuối tháng ra ổ cứng ngoài
-- ✅ Lưu trữ dài hạn tối thiểu 6 tháng
-
-**Trước khi:**
-- ⚠️ Cập nhật phần mềm
-- ⚠️ Thay đổi menu lớn
-- ⚠️ Sửa giá bán
-
-➡️ **Luôn backup trước!**
-
-**Khuyến nghị**: Backup **HÀNG NGÀY** sau khi đóng cửa quán!
-
-### Khôi phục dữ liệu
-1. Tắt ứng dụng
-2. Xóa file `pickleball_drink.db` cũ
-3. Copy file backup về và đổi tên thành `pickleball_drink.db`
-4. Khởi động lại app
-
----
-
-## 📱 Hướng dẫn sử dụng nhanh
-
-### 🪑 Quản lý bàn
-
-**Mở bàn:**
-- Click vào bàn trống (màu xanh)
-- Chọn món từ menu
-- Điều chỉnh số lượng
-- Bàn chuyển sang "Đang phục vụ" (màu vàng)
-
-**Chuyển bàn:**
-- Mở bàn nguồn → Click "Chuyển bàn"
-- Chọn bàn đích (chỉ bàn trống)
-- Món tự động chuyển sang
-
-**Gộp bàn:**
-- Vào bàn 1 → Click "Gộp bàn" → Chọn bàn 3
-- Bàn 1 và 3 biến mất → Xuất hiện bàn "1 + 3"
-- Tiếp tục gộp: Vào "1 + 3" → Gộp bàn 5 → Thành "1 + 3 + 5"
-
-**Tách bàn:**
-- Vào bàn ghép (VD: "1 + 3 + 5")
-- Click "Tách bàn" → Xác nhận
-- 3 bàn xuất hiện lại, món chia đều
-
-**Thêm/Xóa bàn:**
-- Click "➕ Thêm bàn mới" (góc phải)
-- Click "🗑️ Xóa bàn" → Chọn bàn trống muốn xóa
-
-### 📋 Quản lý Menu
-
-**Thêm món:**
-1. Tab "Menu" → Click "Thêm món mới"
-2. Nhập: Tên món, Giá, Danh mục, Mô tả
-3. Click "Lưu"
-
-**Sửa món:**
-- Click nút "Sửa" trên món cần chỉnh
-- Cập nhật thông tin → Lưu
-
-**Xóa món:**
-- Click "Xóa" → Xác nhận
-
-### 💰 Thanh toán
-
-1. Sau khi khách order xong → Click "Thanh toán"
-2. Chọn phương thức: Tiền mặt / Chuyển khoản / QR
-3. Nhập giảm giá (nếu có)
-4. Nhập tên thu ngân
-5. Click "Xác nhận thanh toán"
-6. Hóa đơn tự động lưu vào "Hóa đơn"
-
-### 📊 Báo cáo
-
-1. Tab "Báo cáo"
-2. Chọn thời gian (từ ngày → đến ngày)
-3. Click "Tạo báo cáo"
-4. Xem: Tổng doanh thu, Top món, Thống kê thanh toán
-
----
-
-## 🛠️ Bảo trì & Vận hành lâu dài
-
-### ✅ Phần mềm KHÔNG CẦN bảo trì thường xuyên vì:
-
-1. **SQLite database** - Nhẹ, ổn định, không cần server
-2. **Offline 100%** - Không phụ thuộc internet
-3. **Không có API bên thứ 3** - Không lo service ngừng hoạt động
-4. **Code đơn giản** - Ít bug, dễ sửa
-
-### ⚠️ CẦN LƯU Ý:
-
-1. **BACKUP database HÀNG NGÀY** - Đây là việc DUY NHẤT cần làm!
-2. Nếu Windows Update, khởi động lại máy
-3. Nếu cài phần mềm mới, test lại app xem có conflict không
-4. Cứ 6 tháng nên backup code + database ra USB dự phòng
-
-### 🔄 Cập nhật phần mềm (nếu có version mới)
-
-1. Backup database cũ
-2. Cài version mới (theo hướng dẫn cài đặt)
-3. Copy file database cũ vào thư mục mới
-4. Test thử trước khi dùng chính thức
-
-### 🐛 Xử lý sự cố
-
-**App không chạy:**
-1. Kiểm tra Node.js còn không: `node --version`
-2. Chạy lại: `npm install`
-3. Khởi động lại máy
-
-**Mất dữ liệu:**
-1. Restore file backup `pickleball_drink.db`
-
-**App chạy chậm:**
-1. Đóng các phần mềm khác
-2. Restart app
-3. Restart máy tính
-
-**Database bị lỗi:**
-1. Tắt app
-2. Xóa file `pickleball_drink.db`
-3. Restore từ backup gần nhất
-
----
-
-## 🎓 Đào tạo nhân viên
-
-### Người dùng cơ bản (Nhân viên phục vụ)
-- **5 phút** học: Mở bàn, gọi món, thanh toán
-- Không cần đào tạo menu (giao diện trực quan)
-
-### Người quản lý (Quản lý quán)
-- **15 phút** học: Thêm món, xem báo cáo, backup
-- In hướng dẫn ra giấy dán tại quầy
-
----
-
-## 📦 Thông tin kỹ thuật
-
-### Công nghệ sử dụng
-- **Electron** - Framework desktop
-- **SQLite (sql.js)** - Database nhẹ
-- **HTML/CSS/JavaScript** - Giao diện
-
-### Cấu trúc file
-```
-Pickleball Drink Manager/
-├── main.js                    - Electron main process
-├── preload.js                 - IPC bridge
-├── index.html                 - Giao diện chính
-├── app.js                     - Logic frontend
-├── database.js                - Xử lý database
-├── styles.css                 - CSS
-├── seed-menu.js               - Tạo dữ liệu mẫu
-├── package.json               - Dependencies
-├── pickleball_drink.db        - Database (tự tạo)
-│
-├── 🚀 Scripts khởi động
-│   ├── install.bat            - Cài đặt dependencies
-│   └── start-app.bat          - Chạy ứng dụng
-│
-├── 💾 Scripts backup/restore
-│   ├── backup-data.bat        - Backup thủ công
-│   ├── restore-data.bat       - Khôi phục từ backup
-│   ├── list-backups.bat       - Xem danh sách backup
-│   ├── setup-auto-backup.bat  - Cài lịch backup tự động (23:00)
-│   └── uninstall-auto-backup.bat - Gỡ lịch tự động
-│
-└── 📁 backups/                - Thư mục chứa backup (tự tạo)
+### Build Windows Installer
+```bash
+npm run build
 ```
 
-### Dependencies chính
-- `electron`: ^28.1.0
-- `sql.js`: ^1.10.3
+Output: `dist/Pickleball Drink Manager Setup 1.0.0.exe` (80+ MB)
+
+### Build configuration
+File `package.json` chứa config cho electron-builder:
+```json
+{
+  "build": {
+    "appId": "com.pickleballdrink.manager",
+    "productName": "Pickleball Drink Manager",
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
+```
 
 ---
 
-## 📞 Hỗ trợ & Liên hệ
+## 💾 Database Schema
 
-**Lỗi kỹ thuật?**
-- Kiểm tra phần "Xử lý sự cố" ở trên
-- Restart app và thử lại
+### Tables
+1. **categories** - Danh mục món
+2. **menu_items** - Món ăn/uống
+3. **tables** - Bàn (hỗ trợ merge/split)
+4. **orders** - Đơn hàng
+5. **order_items** - Chi tiết đơn hàng
+6. **bills** - Hóa đơn thanh toán
+7. **bill_items** - Chi tiết hóa đơn
+8. **users** - Tài khoản người dùng
 
-**Cần tính năng mới?**
-- Ghi chú lại và liên hệ developer
+### Vị trí database
+- **Development:** `d:\New folder (12)\pickleball_drink.db`
+- **Production:** `%APPDATA%\pickleball-drink-manager\pickleball_drink.db`
 
-**Mất dữ liệu?**
-- Restore từ file backup
-
----
-
-## 📄 License & Copyright
-
-**Version**: 1.0.0  
-**Ngày phát hành**: Tháng 12/2025  
-**Platform**: Windows Desktop
-
-**LƯU Ý**: 
-- Phần mềm KHÔNG GỬI dữ liệu ra internet
-- Tất cả dữ liệu lưu LOCAL trên máy
-- BACKUP thường xuyên để tránh mất dữ liệu!
+### Migrate dữ liệu
+Nếu đã có dữ liệu cũ, sử dụng `migrate-database.bat` để chuyển sang version mới.
 
 ---
 
-## ⭐ Tóm tắt nhanh
+## 📝 NPM Scripts
 
-### Cài lần đầu:
-1. Tải Node.js: https://nodejs.org/
-2. Double-click: `install.bat`
-3. Double-click: `start-app.bat`
+| Command | Mô tả |
+|---------|-------|
+| `npm start` | Chạy app ở development mode |
+| `npm run build` | Build Windows installer (.exe) |
 
-### Sử dụng hàng ngày:
-1. Double-click: `start-app.bat`
-2. Làm việc bình thường
-3. Đóng app khi xong
+---
 
-### Backup hàng ngày (chọn 1 trong 2):
+## 🔒 Bảo mật
 
-**Cách 1 - Thủ công:**
-1. Double-click: `backup-data.bat`
-2. File backup tự động lưu vào `backups\`
+- ✅ Context Isolation enabled
+- ✅ Node Integration disabled trong renderer
+- ✅ Preload script làm bridge an toàn
+- ✅ Mật khẩu lưu plain text (cân nhắc hash trong tương lai)
+- ✅ Database local, không sync cloud
 
-**Cách 2 - Tự động:**
-1. Click phải `setup-auto-backup.bat` → "Run as administrator"
-2. Backup tự chạy mỗi đêm 23:00
+---
 
-### Khôi phục khi cần:
-1. Double-click: `restore-data.bat`
-2. Chọn số thứ tự backup muốn khôi phục
-3. Xác nhận → Xong!
+## 🐛 Known Issues & Limitations
 
-**🎉 VẬY LÀ XONG! Dễ dàng và ổn định lâu dài!**
+1. **Timezone:** App sử dụng giờ máy tính local, đảm bảo máy đã set múi giờ Việt Nam
+2. **Single instance:** Chưa hỗ trợ multi-user concurrent access
+3. **Network:** Hoạt động offline, không có sync giữa nhiều máy
+4. **Print:** Chỉ hỗ trợ print qua browser print dialog
+
+---
+
+## 🔄 Phiên bản
+
+### v1.0.0 (Current)
+- ✅ Full POS features
+- ✅ Authentication system
+- ✅ Merge/split tables
+- ✅ Print bills
+- ✅ Reports
+- ✅ Backup/restore
+- ✅ Vietnam timezone support
+- ✅ Production-ready database persistence
+
+---
+
+## 📞 Hỗ trợ
+
+Để được hỗ trợ, vui lòng tham khảo:
+- `HUONG_DAN_CAI_DAT.txt` - Hướng dẫn cài đặt chi tiết
+- `BACKUP_HUONG_DAN.txt` - Hướng dẫn backup
+- `BUILD_GUIDE.txt` - Hướng dẫn build từ source
+
+---
+
+## 📄 License
+
+Proprietary - Dự án được phát triển cho Pickleball Drink Cafe.
+
+---
+
+## 👨‍💻 Development Info
+
+### Architecture
+```
+┌─────────────────────────────────────────┐
+│         Renderer Process (Frontend)      │
+│    ┌─────────────────────────────┐      │
+│    │  index.html + app.js + CSS  │      │
+│    └──────────────┬──────────────┘      │
+│                   │ IPC calls            │
+│    ┌──────────────▼──────────────┐      │
+│    │      preload.js (Bridge)    │      │
+│    └──────────────┬──────────────┘      │
+└───────────────────┼───────────────────────┘
+                    │ Context Bridge
+┌───────────────────▼───────────────────────┐
+│          Main Process (Backend)           │
+│    ┌──────────────────────────────┐      │
+│    │  main.js (IPC Handlers)      │      │
+│    └──────────────┬───────────────┘      │
+│                   │                       │
+│    ┌──────────────▼───────────────┐      │
+│    │  database.js (SQLite)        │      │
+│    └──────────────┬───────────────┘      │
+│                   │                       │
+│    ┌──────────────▼───────────────┐      │
+│    │  pickleball_drink.db         │      │
+│    └──────────────────────────────┘      │
+└───────────────────────────────────────────┘
+```
+
+### Code Style
+- **Frontend:** Vanilla JavaScript (ES6+), no frameworks
+- **Backend:** Node.js với CommonJS modules
+- **Database:** SQL queries với prepared statements
+- **UI:** Custom CSS, không dùng CSS framework
+
+---
+
+**Built with ❤️ for Pickleball Drink Cafe**
